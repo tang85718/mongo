@@ -1,4 +1,4 @@
-package crm
+package mongo
 
 import "gopkg.in/mgo.v2/bson"
 
