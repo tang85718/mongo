@@ -1,4 +1,4 @@
-package crm
+package mongo
 
 import (
 	"time"
