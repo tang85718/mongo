@@ -7,6 +7,7 @@ import (
 
 type Todo struct {
 	ID         bson.ObjectId `bson:"_id,omitempty"`
+	Index      int           `bson:"index"`
 	Place      int           `bson:"place"`
 	Task       int           `bson:"task"`
 	State      int           `bson:"state"`
