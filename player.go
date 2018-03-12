@@ -25,5 +25,6 @@ type Player struct {
 	CreateTime  time.Time     `bson:"create_time"`
 	UpdateTime  time.Time     `bson:"update_time"`
 	Platform    int           `bson:"platform"` // 1:iOS 2:Android
+	FCM         bool          `bson:"fcm"` // 如果是Android机器，是否支持FCM服务，iOS忽略
 	DeviceToken string        `bson:"dev_token"`
 }
