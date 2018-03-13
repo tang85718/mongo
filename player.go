@@ -5,12 +5,6 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-const (
-	DB_ROOT  = "root"
-	C_PLAYER = "player"
-	C_ACTOR  = "actors"
-)
-
 type Player struct {
 	ID          bson.ObjectId `bson:"_id,omitempty"`
 	DisplayID   string        `bson:"id"`
@@ -25,6 +19,11 @@ type Player struct {
 	CreateTime  time.Time     `bson:"create_time"`
 	UpdateTime  time.Time     `bson:"update_time"`
 	Platform    int           `bson:"platform"` // 1:iOS 2:Android
-	FCM         bool          `bson:"fcm"` // 如果是Android机器，是否支持FCM服务，iOS忽略
+	FCM         bool          `bson:"fcm"`      // 如果是Android机器，是否支持FCM服务，iOS忽略
 	DeviceToken string        `bson:"dev_token"`
+}
+
+func (p *Player) FetchData(mgo *MongoDB, token string) error {
+	c := mgo.ms.DB(DB_ROOT).C(C_PLAYER)
+	return c.Find(bson.M{"token": token}).One(p)
 }

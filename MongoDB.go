@@ -2,6 +2,12 @@ package mongo
 
 import "gopkg.in/mgo.v2"
 
+const (
+	DB_ROOT  = "root"
+	C_PLAYER = "player"
+	C_ACTOR  = "actors"
+)
+
 type MongoDB struct {
 	ms *mgo.Session
 }
