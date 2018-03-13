@@ -23,7 +23,7 @@ type Player struct {
 	DeviceToken string        `bson:"dev_token"`
 }
 
-func (p *Player) FetchData(mgo *MongoDB, token string) error {
+func (p *Player) ReadDataFromDB(mgo *MongoDB, token string) error {
 	c := mgo.ms.DB(DB_ROOT).C(C_PLAYER)
 	return c.Find(bson.M{"token": token}).One(p)
 }

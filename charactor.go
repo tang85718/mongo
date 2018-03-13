@@ -10,3 +10,5 @@ type Charactor struct {
 	Energy      int           `bson:"energy"`
 	EnergyType  int           `bson:"energy_type"`
 }
+
+
