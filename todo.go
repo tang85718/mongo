@@ -12,4 +12,6 @@ type Todo struct {
 	Task       int           `bson:"task"`
 	State      int           `bson:"state"`
 	CreateTime time.Time     `bson:"create_time"`
+	StartTime  int64         `bson:"start_time"`
+	Duration   int64         `bson:"duration"`
 }
