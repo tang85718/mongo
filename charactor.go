@@ -11,4 +11,20 @@ type Charactor struct {
 	EnergyType  int           `bson:"energy_type"`
 }
 
+func (c *Charactor) ToDB(mgo *MongoDB, sdb string) error {
+	db := mgo.Conn.DB(sdb).C(C_ACTOR)
+	return db.Insert(c)
+}
 
+/**
+	调用前确保ID不为空, 该函数会将数据从数据库中拿出来，然后删除数据库中的数据.
+*/
+func (c *Charactor) RemoveByID(mgo *MongoDB, sdb string) error {
+	db := mgo.Conn.DB(sdb).C(C_ACTOR)
+	err := db.FindId(c.ID).One(c)
+	if err != nil {
+		return err
+	}
+
+	return db.RemoveId(c.ID)
+}

@@ -7,8 +7,7 @@ import (
 
 type Player struct {
 	ID          bson.ObjectId `bson:"_id,omitempty"`
-	DisplayID   string        `bson:"id"`
-	Token       string        `bson:"token"`
+	DisplayID   string        `bson:"display_id"`
 	Phone       string        `bson:"phone"`
 	Country     string        `bson:"country"`
 	Province    string        `bson:"province"`
@@ -23,7 +22,7 @@ type Player struct {
 	DeviceToken string        `bson:"dev_token"`
 }
 
-func (p *Player) ReadDataFromDB(mgo *MongoDB, token string) error {
-	c := mgo.ms.DB(DB_ROOT).C(C_PLAYER)
-	return c.Find(bson.M{"token": token}).One(p)
+func (p *Player) FromDB(mgo *MongoDB, token string) error {
+	db := mgo.Conn.DB(DB_GLOBAL).C(C_PLAYER)
+	return db.FindId(bson.ObjectIdHex(token)).One(p)
 }

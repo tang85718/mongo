@@ -5,8 +5,18 @@ import (
 	"time"
 )
 
+/**
+Todo.Task
+0: 游戏刚开始
+
+Todo.Place
+0: asylum
+1: wilderness
+ */
+
 type Todo struct {
 	ID         bson.ObjectId `bson:"_id,omitempty"`
+	ActorToken string        `bson:"actor_token"`
 	Index      int           `bson:"index"`
 	Place      int           `bson:"place"`
 	Task       int           `bson:"task"`
@@ -24,4 +34,25 @@ func (t *Todo) IsCompleted() bool {
 	}
 
 	return false
+}
+
+func (t *Todo) ToDB(mgo *MongoDB) error {
+	db := mgo.Conn.DB(DB_GLOBAL).C(C_TODO)
+	count, err := db.Find(bson.M{"actor_token": t.ActorToken}).Count()
+	if err != nil {
+		return err
+	}
+	t.Index = count + 1
+	return db.Insert(t)
+}
+
+func GetAllToDo(mgo *MongoDB) ([]Todo, error) {
+	db := mgo.Conn.DB(DB_GLOBAL).C(C_TODO)
+
+	results := []Todo{}
+	if err := db.Find(nil).All(&results); err != nil {
+		return nil, err
+	}
+
+	return results, nil
 }

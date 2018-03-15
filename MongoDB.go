@@ -3,13 +3,17 @@ package mongo
 import "gopkg.in/mgo.v2"
 
 const (
-	DB_ROOT  = "root"
-	C_PLAYER = "player"
-	C_ACTOR  = "actors"
+	DB_GLOBAL = "global" // catalog global
+	C_PLAYER  = "player"
+	C_ACTOR   = "actors"
+	DB_ASYLUM = "asylum" // catalog asylum
+	DB_WILDER = "wilderness" // catalog wilderness
+	C_PENDING = "pending"
+	C_TODO    = "todo" // catalog actor-token
 )
 
 type MongoDB struct {
-	ms *mgo.Session
+	Conn *mgo.Session
 }
 
 func (self *MongoDB) Dial(url string) error {
@@ -19,14 +23,14 @@ func (self *MongoDB) Dial(url string) error {
 	}
 
 	ms.SetMode(mgo.Monotonic, true)
-	self.ms = ms
+	self.Conn = ms
 	return err
 }
 
 func (self *MongoDB) CheckHealth() bool {
-	if self.ms == nil {
+	if self.Conn == nil {
 		return false
 	}
 
-	return self.ms.Ping() != nil
+	return self.Conn.Ping() != nil
 }
